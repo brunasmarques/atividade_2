@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>LIVROS PRO | NOVO</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container nav-content">
+      <a href="index.html" class="brand">BIBLIOTECA <span class="highlight">PRO</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Início</a></li>
+        <li><a href="cadastro.html">Cadastrar</a></li>
+        <li><a href="listagem.html">Ver Acervo</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="form-card">
+      <h2 style="margin-bottom: 2rem; text-align: center;">REGISTRAR LIVRO</h2>
+      <form id="bookForm">
+        <div class="form-group">
+          <label>TÍTULO</label>
+          <input type="text" id="titulo" required>
+        </div>
+        <div class="form-group">
+          <label>AUTOR</label>
+          <input type="text" id="autor" required>
+        </div>
+        <div class="form-group">
+          <label>PÁGINAS</label>
+          <input type="number" id="paginas" required>
+        </div>
+        <div class="form-group">
+          <label>GÊNERO</label>
+          <input type="text" id="genero" required>
+        </div>
+        <button type="submit" class="btn" style="width: 100%;">SALVAR NO SISTEMA</button>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    // Usamos o ID 'bookForm' que está na tag <form> acima
+    document.getElementById('bookForm').onsubmit = async (e) => {
+      e.preventDefault();
+
+      // Monta o objeto com os nomes exatos das colunas do banco
+      const dados = {
+        titulo: document.getElementById('titulo').value,
+        autor: document.getElementById('autor').value,
+        paginas: parseInt(document.getElementById('paginas').value),
+        genero: document.getElementById('genero').value
+      };
+
+      try {
+        // Envia para o seu server.js local (que serve de ponte para o do professor)
+        const res = await fetch('http://localhost:3000/livros', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(dados)
+        });
+
+        if (res.ok) {
+          alert('Livro cadastrado no banco do professor com sucesso!');
+          e.target.reset(); // Limpa os campos após o sucesso
+        } else {
+          const erro = await res.json();
+          alert('Erro no servidor: ' + (erro.erro || 'Verifique o console'));
+        }
+      } catch (err) {
+        console.error('Erro de conexão:', err);
+        alert('Servidor local desligado! Certifique-se de que rodou "node server.js" na pasta backend.');
+      }
+    };
+  </script>
+</body>
+</html>

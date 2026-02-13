@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>LIVROS PRO | ACERVO</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container nav-content">
+      <a href="index.html" class="brand">BIBLIOTECA <span class="highlight">PRO</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Início</a></li>
+        <li><a href="cadastro.html">Cadastrar</a></li>
+        <li><a href="listagem.html">Ver Acervo</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+    <h1 class="page-title">LIVROS <span class="highlight">CADASTRADOS</span></h1>
+    <div id="grid" class="cards-grid"></div>
+  </main>
+
+  <script>
+    async function carregarLivros() {
+      const grid = document.getElementById('grid');
+      
+      try {
+        // Busca os dados no seu backend local (porta 3000)
+        const res = await fetch('http://localhost:3000/livros');
+        
+        if (!res.ok) throw new Error('Falha ao buscar dados');
+        
+        const dados = await res.json();
+
+        // Se o banco do professor estiver vazio
+        if (dados.length === 0) {
+          grid.innerHTML = `<h2 style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">
+            Nenhum livro encontrado no acervo remoto.
+          </h2>`;
+          return;
+        }
+
+        // Renderiza os cards usando a classe 'book-card' do seu CSS
+        grid.innerHTML = dados.map(l => `
+          <article class="book-card">
+            <h2>${l.titulo || 'Sem título'}</h2>
+            <p class="book-info"><strong>AUTOR:</strong> ${l.autor || 'Desconhecido'}</p>
+            <p class="book-info"><strong>PÁGINAS:</strong> ${l.paginas || 0}</p>
+            <p class="book-info"><strong>GÊNERO:</strong> ${l.genero || 'Não informado'}</p>
+          </article>
+        `).join('');
+
+      } catch (err) {
+        console.error('Erro na listagem:', err);
+        grid.innerHTML = `<h2 style="grid-column: 1/-1; text-align: center; color: #ff4d4d;">
+          ERRO AO CONECTAR: Verifique se o backend está rodando.
+        </h2>`;
+      }
+    }
+
+    // Executa a função ao carregar a página
+    carregarLivros();
+  </script>
+</body>
+</html>

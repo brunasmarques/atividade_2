@@ -1,0 +1,175 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+
+:root {
+  /* Cores da Paleta Enviada */
+  --tropical-violet: #CCABD8;
+  --rhythm-purple: #8474A1;
+  --moonstone-blue: #d6c9f0; /* Tom mais neutro para fundos */
+  --viridian-green: #9184b6;
+  
+  /* Variáveis de Ambiente */
+  --bg-color: #f4f6f8;       /* Fundo claro para destacar a paleta */
+  --card-bg: #ffffff;
+  --text-main: #2d3436;
+  --text-muted: #636e72;
+  --border-color: #dfe6e9;
+  --shadow: 0 10px 25px rgba(132, 116, 161, 0.15);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  line-height: 1.6;
+}
+
+/* Navbar usando Rhythm Purple */
+.navbar {
+  background: var(--rhythm-purple);
+  border-bottom: 4px solid var(--viridian-green);
+  padding: 1.2rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.container { width: 90%; max-width: 1200px; margin: 0 auto; }
+
+.nav-content { display: flex; justify-content: space-between; align-items: center; }
+
+.brand { 
+  font-size: 1.8rem; 
+  font-weight: 800; 
+  color: #ffffff; 
+  text-decoration: none;
+  letter-spacing: -1px;
+}
+
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+
+.nav-links a { 
+  color: #ffffff; 
+  text-decoration: none; 
+  font-weight: 600; 
+  text-transform: uppercase; 
+  font-size: 0.9rem;
+  transition: 0.3s;
+}
+
+.nav-links a:hover { color: var(--tropical-violet); }
+
+main { padding-bottom: 5rem; }
+
+/* Hero Section com Moonstone Blue */
+.hero {
+  text-align: center;
+  padding: 6rem 2rem;
+  background: linear-gradient(135deg, #ffffff 0%, var(--moonstone-blue) 100%);
+  border-radius: 20px;
+  margin-top: 4rem;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
+}
+
+.page-title {
+  margin-top: 5rem; 
+  margin-bottom: 3rem;
+  text-align: center;
+  font-size: clamp(2.2rem, 5vw, 3rem);
+  color: var(--rhythm-purple);
+  font-weight: 800;
+}
+
+.highlight { color: var(--viridian-green); }
+
+/* Botão Viridian Green */
+.btn {
+  background: var(--viridian-green);
+  color: #fff;
+  padding: 1.1rem 2.4rem;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 700;
+  display: inline-block;
+  transition: 0.3s;
+  border: none;
+  cursor: pointer;
+}
+
+.btn:hover { 
+  transform: translateY(-3px); 
+  filter: brightness(1.1);
+  box-shadow: 0 8px 20px rgba(8, 151, 157, 0.3);
+}
+
+/* Formulário com borda Tropical Violet */
+.form-card {
+  background: var(--card-bg);
+  padding: 3rem;
+  border-radius: 24px;
+  border: 2px solid var(--tropical-violet);
+  max-width: 550px;
+  margin: 4rem auto;
+  box-shadow: var(--shadow);
+}
+
+.form-group { margin-bottom: 1.5rem; }
+
+label { 
+  display: block; 
+  margin-bottom: 0.6rem; 
+  font-weight: 600; 
+  color: var(--rhythm-purple); 
+}
+
+input {
+  width: 100%;
+  padding: 1rem;
+  background: #fff;
+  border: 2px solid var(--moonstone-blue);
+  border-radius: 12px;
+  color: var(--text-main);
+  font-size: 1rem;
+  transition: 0.3s;
+}
+
+input:focus { 
+  border-color: var(--viridian-green); 
+  outline: none;
+  box-shadow: 0 0 8px rgba(8, 151, 157, 0.2);
+}
+
+/* Grid de Livros */
+.cards-grid { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+  gap: 2rem; 
+}
+
+.book-card {
+  background: var(--card-bg);
+  padding: 2.2rem;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  border-left: 6px solid var(--rhythm-purple); /* Detalhe lateral */
+  transition: 0.4s;
+}
+
+.book-card:hover { 
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(132, 116, 161, 0.2);
+  border-left-color: var(--viridian-green); /* Muda a cor no hover */
+}
+
+.book-card h2 { 
+  color: var(--rhythm-purple); 
+  margin-bottom: 1rem; 
+  font-size: 1.6rem;
+}
+
+.book-info { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+
+.book-info strong { color: var(--viridian-green); }
