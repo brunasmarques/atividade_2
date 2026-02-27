@@ -23,45 +23,55 @@
   </main>
 
   <script>
-    async function carregarLivros() {
-      const grid = document.getElementById('grid');
+    async function carregarProdutos() {
+      const grid = document.getElementById('grid')
       
       try {
-        // Busca os dados no seu backend local (porta 3000)
-        const res = await fetch('http://localhost:3000/livros');
+        const res = await fetch('http://localhost:3000/produtos')
         
-        if (!res.ok) throw new Error('Falha ao buscar dados');
+        if (!res.ok) throw new Error('Falha ao buscar dados')
         
-        const dados = await res.json();
+        const dados = await res.json()
 
-        // Se o banco do professor estiver vazio
         if (dados.length === 0) {
           grid.innerHTML = `<h2 style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">
-            Nenhum livro encontrado no acervo remoto.
-          </h2>`;
-          return;
+            Nenhum produto encontrado no estoque remoto.
+          </h2>`
+          return
         }
 
-        // Renderiza os cards usando a classe 'book-card' do seu CSS
-        grid.innerHTML = dados.map(l => `
+        grid.innerHTML = dados.map(p => `
           <article class="book-card">
-            <h2>${l.titulo || 'Sem título'}</h2>
-            <p class="book-info"><strong>AUTOR:</strong> ${l.autor || 'Desconhecido'}</p>
-            <p class="book-info"><strong>PÁGINAS:</strong> ${l.paginas || 0}</p>
-            <p class="book-info"><strong>GÊNERO:</strong> ${l.genero || 'Não informado'}</p>
+            <h2>${p.nome || 'Sem nome'}</h2>
+            <p class="book-info"><strong>DESCRIÇÃO:</strong> ${p.descricao || 'Não informada'}</p>
+            <p class="book-info"><strong>PREÇO:</strong> R$ ${p.preco || 0}</p>
+            <p class="book-info"><strong>ESTOQUE:</strong> ${p.estoque || 0}</p>
+            <button class="btn-delete" onclick="deletarProduto(${p.id})">Apagar</button>
           </article>
-        `).join('');
+        `).join('')
 
       } catch (err) {
-        console.error('Erro na listagem:', err);
+        console.error('Erro na listagem:', err)
         grid.innerHTML = `<h2 style="grid-column: 1/-1; text-align: center; color: #ff4d4d;">
           ERRO AO CONECTAR: Verifique se o backend está rodando.
-        </h2>`;
+        </h2>`
       }
     }
 
-    // Executa a função ao carregar a página
-    carregarLivros();
+    async function deletarProduto(id) {
+      try {
+        const res = await fetch(`http://localhost:3000/produtos/${id}`, { method: 'DELETE' })
+        if (!res.ok) throw new Error('Falha ao deletar')
+        const json = await res.json()
+        alert(json.mensagem || 'Produto deletado com sucesso')
+        carregarProdutos()
+      } catch (err) {
+        console.error('Erro ao apagar:', err)
+        alert('Não foi possível apagar o produto.')
+      }
+    }
+
+    carregarProdutos()
   </script>
 </body>
 </html>
